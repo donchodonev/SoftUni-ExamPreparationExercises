@@ -2,9 +2,9 @@
 
 namespace _01._Counter_Strike
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             int energy = int.Parse(Console.ReadLine());
 
@@ -16,14 +16,7 @@ namespace _01._Counter_Strike
             {
                 int leftEnergy = energy - int.Parse(command);
 
-                if (leftEnergy == 0)
-                {
-                    energy -= int.Parse(command);
-                    wonBattles++;
-                    Console.WriteLine($"Not enough energy! Game ends with {wonBattles} won battles and {energy} energy");
-                    return;
-                }
-                else if (leftEnergy < 0)
+                if (leftEnergy < 0)
                 {
                     Console.WriteLine($"Not enough energy! Game ends with {wonBattles} won battles and {energy} energy");
                     return;
@@ -42,7 +35,10 @@ namespace _01._Counter_Strike
                 command = Console.ReadLine();
             }
 
-            Console.WriteLine($"Won battles: {wonBattles}. Energy left: {energy}");
+            if (command == "End of battle")
+            {
+                Console.WriteLine($"Won battles: {wonBattles}. Energy left: {energy}");
+            }
         }
     }
 }
