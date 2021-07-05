@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "01. Counter Strike", "01. C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02. Shoot for the Win", "02. Shoot for the Win\02. Shoot for the Win.csproj", "{30401B06-4EDE-4480-986C-8EB9B13C535A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03. Moving Target", "03. Moving Target\03. Moving Target.csproj", "{22539821-9967-48E8-8E0A-8A7703E8A5C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{30401B06-4EDE-4480-986C-8EB9B13C535A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30401B06-4EDE-4480-986C-8EB9B13C535A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30401B06-4EDE-4480-986C-8EB9B13C535A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22539821-9967-48E8-8E0A-8A7703E8A5C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22539821-9967-48E8-8E0A-8A7703E8A5C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22539821-9967-48E8-8E0A-8A7703E8A5C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22539821-9967-48E8-8E0A-8A7703E8A5C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
