@@ -35,10 +35,7 @@ namespace _03._P_rates
             Population -= people;
             Gold -= gold;
 
-            if (IsWiped)
-            {
-                Console.WriteLine($"{Name} plundered! {gold} gold stolen, {people} citizens killed.");
-            }
+            Console.WriteLine($"{Name} plundered! {gold} gold stolen, {people} citizens killed.");
         }
 
         public void Prosper(int gold)
