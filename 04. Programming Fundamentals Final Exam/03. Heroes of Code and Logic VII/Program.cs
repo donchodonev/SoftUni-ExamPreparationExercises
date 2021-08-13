@@ -34,14 +34,10 @@ namespace _03._Heroes_of_Code_and_Logic_VII
         {
             get => hp;
         }
-        public int Mana
-        {
-            get => mana;
-        }
 
         public void CastSpell(string spellName, int manaNeeded)
         {
-            if (manaNeeded <= Mana)
+            if (manaNeeded <= this.mana)
             {
                 this.mana -= manaNeeded;
                 Console.WriteLine($"{Name} has successfully cast {spellName} and now has {this.mana} MP!");
@@ -68,9 +64,9 @@ namespace _03._Heroes_of_Code_and_Logic_VII
 
         public void Recharge(int amount)
         {
-            int initialMana = Mana;
+            int initialMana = this.mana;
 
-            if (Mana + amount > 200)
+            if (this.mana + amount > 200)
             {
                 this.mana = 200;
                 Console.WriteLine($"{Name} recharged for {200 - initialMana} MP!");
@@ -104,7 +100,7 @@ namespace _03._Heroes_of_Code_and_Logic_VII
                    $"{Environment.NewLine}"+
                    $"  HP: {HP}" +
                    $"{Environment.NewLine}" +
-                   $"  MP: {Mana}";
+                   $"  MP: {this.mana}";
         }
     }
     class Program
