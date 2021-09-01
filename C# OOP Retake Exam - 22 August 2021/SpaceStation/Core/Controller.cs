@@ -23,18 +23,25 @@ namespace SpaceStation.Core
             unsuitableAstronauts = new List<IAstronaut>();
             astronauts = new List<IAstronaut>();
             planets = new List<IPlanet>();
-            astronautTypes = new string[]
-            {
-                "Biologiest",
-                "Geodesist",
-                "Meteorologist"
-            };
+
+            var type = typeof(IAstronaut);
+
+            var astronautTypes = AppDomain
+                .CurrentDomain
+                .GetAssemblies()
+                .SelectMany(x => x.GetTypes())
+                .Where(t => type.IsAssignableFrom(t) && !t.IsAbstract && !t.IsInterface)
+                .Select(X => X.Name)
+                .ToArray();
         }
 
         public string AddAstronaut(string type, string astronautName)
         {
-
-            if (type == "Biologist")
+            if (!astronautTypes.Contains(type))
+            {
+                throw new InvalidOperationException("Astronaut type doesn't exists!");
+            }
+            else if (type == "Biologist")
             {
                 astronauts.Add(new Biologist(astronautName));
             }
@@ -45,10 +52,6 @@ namespace SpaceStation.Core
             else if (type == "Geodesist")
             {
                 astronauts.Add(new Geodesist(astronautName));
-            }
-            else
-            {
-                throw new InvalidOperationException("Astronaut type doesn't exists!");
             }
 
             return $"Successfully added {type}: {astronautName}!";
