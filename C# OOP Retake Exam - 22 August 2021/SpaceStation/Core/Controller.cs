@@ -26,7 +26,7 @@ namespace SpaceStation.Core
 
             var type = typeof(IAstronaut);
 
-            var astronautTypes = AppDomain
+            astronautTypes = AppDomain
                 .CurrentDomain
                 .GetAssemblies()
                 .SelectMany(x => x.GetTypes())
