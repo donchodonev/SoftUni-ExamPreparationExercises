@@ -1,6 +1,7 @@
 ﻿using SpaceStation.Models.Planets.Contracts;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace SpaceStation.Models.Planets
@@ -9,10 +10,10 @@ namespace SpaceStation.Models.Planets
     {
         private string name;
         private List<string> items;
-        public Planet(string name)
+        public Planet(string name, params string[] items)
         {
             SetName(name);
-            items = new List<string>();
+            this.items = items.ToList();
         }
 
         public ICollection<string> Items => this.items.AsReadOnly();

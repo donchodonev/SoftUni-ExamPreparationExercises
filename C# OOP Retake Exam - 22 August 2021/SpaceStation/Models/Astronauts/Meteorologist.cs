@@ -9,6 +9,7 @@ namespace SpaceStation.Models.Astronauts
         public Meteorologist(string name) 
             : base(name)
         {
+            SetInitialOxygen();
         }
 
         public Meteorologist(double oxygen, string name) 

@@ -13,11 +13,19 @@ namespace SpaceStation.Models.Mission.Contracts
         private string name;
         private List<Astronaut> astronauts;
         private IPlanet planet;
+
+        public Mission()
+        {
+            astronauts = new List<Astronaut>();
+        }
+
         public Mission(string name)
         {
             this.name = name;
             astronauts = new List<Astronaut>();
         }
+
+        public int DeadAstronauts => astronauts.Count(x => !x.CanBreath);
 
         public void Explore(IPlanet planet, ICollection<IAstronaut> astronauts)
         {
