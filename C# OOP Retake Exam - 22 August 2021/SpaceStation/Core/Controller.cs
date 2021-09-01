@@ -13,12 +13,14 @@ namespace SpaceStation.Core
 {
     public class Controller : IController
     {
+        private List<IAstronaut> unsuitableAstronauts;
         private List<IAstronaut> astronauts;
         private List<IPlanet> planets;
         private int planetsExplored;
         private string[] astronautTypes;
         public Controller()
         {
+            unsuitableAstronauts = new List<IAstronaut>();
             astronauts = new List<IAstronaut>();
             planets = new List<IPlanet>();
             astronautTypes = new string[]
@@ -61,10 +63,7 @@ namespace SpaceStation.Core
 
         public string ExplorePlanet(string planetName)
         {
-            List<IAstronaut> suitableAstronauts = astronauts.Where(x => x.Oxygen > 60)
-                .ToList();
-
-            if (suitableAstronauts.Count() == 0)
+            if (astronauts.Count(x => x.Oxygen > 60) == 0)
             {
                 throw new InvalidOperationException("You need at least one astronaut to explore the planet");
             }
@@ -73,25 +72,23 @@ namespace SpaceStation.Core
 
             Mission mission = new Mission();
 
-            mission.Explore(planet, suitableAstronauts);
+            mission.Explore(planet, astronauts.Where(x => x.Oxygen > 60).ToList());
 
             planetsExplored++;
 
             int deadAstronautsAfterMission = mission.DeadAstronauts;
 
-            this.astronauts = mission.Astronauts.ToList();
 
             return $"Planet: {planetName} was explored! Exploration" +
                 $" finished with" +
                 $" {deadAstronautsAfterMission} dead astronauts!";
-
         }
 
         public string Report()
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine($"{planetsExplored} planets were explored");
+            sb.AppendLine($"{planetsExplored} planets were explored!");
             sb.AppendLine("Astronauts info:");
 
             foreach (var astronaut in astronauts)
@@ -110,7 +107,6 @@ namespace SpaceStation.Core
             }
 
             return sb.ToString().TrimEnd();
-
         }
 
         public string RetireAstronaut(string astronautName)
