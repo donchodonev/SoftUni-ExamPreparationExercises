@@ -11,37 +11,37 @@ namespace SpaceStation.Models.Mission.Contracts
     public class Mission : IMission
     {
         private string name;
-        private List<Astronaut> astronauts;
+        private ICollection<IAstronaut> astronauts;
         private IPlanet planet;
 
         public Mission()
         {
-            astronauts = new List<Astronaut>();
+            astronauts = new List<IAstronaut>();
         }
 
         public Mission(string name)
         {
             this.name = name;
-            astronauts = new List<Astronaut>();
+            astronauts = new List<IAstronaut>();
         }
 
         public int DeadAstronauts => astronauts.Count(x => !x.CanBreath);
 
+        public IReadOnlyList<IAstronaut> Astronauts => astronauts.ToList().AsReadOnly();
+
         public void Explore(IPlanet planet, ICollection<IAstronaut> astronauts)
         {
             this.planet = planet;
+            this.astronauts = astronauts;
 
-            foreach (var astronaut in this.astronauts)
+            foreach (Astronaut astronaut in this.astronauts)
             {
-                if (astronaut.CanBreath)
+                while (this.planet.Items.Count > 0 && astronaut.CanBreath)
                 {
-                    while (this.planet.Items.Count > 0)
-                    {
-                        astronaut.Breath();
-                        var item = planet.Items.First();
-                        astronaut.CollectItem(item);
-                        planet.Items.Remove(item);
-                    }
+                    astronaut.Breath();
+                    var item = planet.Items.First();
+                    astronaut.CollectItem(item);
+                    planet.Items.Remove(item);
                 }
             }
         }

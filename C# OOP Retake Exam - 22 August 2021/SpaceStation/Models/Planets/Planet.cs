@@ -16,7 +16,7 @@ namespace SpaceStation.Models.Planets
             this.items = items.ToList();
         }
 
-        public ICollection<string> Items => this.items.AsReadOnly();
+        public ICollection<string> Items => this.items;
 
         public string Name => this.name;
 

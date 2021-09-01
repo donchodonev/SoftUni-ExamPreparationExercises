@@ -79,9 +79,12 @@ namespace SpaceStation.Core
 
             int deadAstronautsAfterMission = mission.DeadAstronauts;
 
+            this.astronauts = mission.Astronauts.ToList();
+
             return $"Planet: {planetName} was explored! Exploration" +
                 $" finished with" +
                 $" {deadAstronautsAfterMission} dead astronauts!";
+
         }
 
         public string Report()
@@ -91,7 +94,7 @@ namespace SpaceStation.Core
             sb.AppendLine($"{planetsExplored} planets were explored");
             sb.AppendLine("Astronauts info:");
 
-            foreach (var astronaut in astronauts.Where(x => x.CanBreath))
+            foreach (var astronaut in astronauts)
             {
                 sb.AppendLine($"Name: {astronaut.Name}");
                 sb.AppendLine($"Oxygen: {astronaut.Oxygen}");
