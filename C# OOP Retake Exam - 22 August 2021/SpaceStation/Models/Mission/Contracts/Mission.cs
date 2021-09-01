@@ -17,11 +17,12 @@ namespace SpaceStation.Models.Mission.Contracts
         {
             this.name = name;
             astronauts = new List<Astronaut>();
-            this.planet = planet;
         }
 
         public void Explore(IPlanet planet, ICollection<IAstronaut> astronauts)
         {
+            this.planet = planet;
+
             foreach (var astronaut in this.astronauts)
             {
                 if (astronaut.CanBreath)
@@ -36,6 +37,5 @@ namespace SpaceStation.Models.Mission.Contracts
                 }
             }
         }
-
     }
 }
