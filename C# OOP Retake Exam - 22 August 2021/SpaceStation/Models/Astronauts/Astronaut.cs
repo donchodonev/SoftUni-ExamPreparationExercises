@@ -10,10 +10,12 @@ namespace SpaceStation.Models.Astronauts
     {
         private string name = "";
         protected double oxygen;
+        private Backpack backpack;
 
         public Astronaut(string name)
         {
             GetName(name);
+            this.backpack = new Backpack();
         }
 
         public Astronaut(double oxygen, string name)
@@ -28,7 +30,7 @@ namespace SpaceStation.Models.Astronauts
 
         public bool CanBreath => Oxygen > 0;
 
-        public IBag Bag => throw new NotImplementedException();
+        public IBag Bag => this.backpack;
 
         public void Breath()
         {
@@ -61,5 +63,10 @@ namespace SpaceStation.Models.Astronauts
         }
 
         protected abstract void SetInitialOxygen();
+
+        public void CollectItem(string item)
+        {
+            this.Bag.Items.Add(item);
+        }
     }
 }
