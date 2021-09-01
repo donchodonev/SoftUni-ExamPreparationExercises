@@ -31,9 +31,7 @@ namespace SpaceStation.Repositories
 
         public bool Remove(IAstronaut model)
         {
-            this.models.Remove(model);
-
-            return !this.models.Contains(model);
+            return this.models.Remove(model);
         }
     }
 }
