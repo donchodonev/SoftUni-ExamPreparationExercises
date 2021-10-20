@@ -56,11 +56,7 @@
 
         public static bool IsTokenFound(string[][] jaggedArray, int row, int col)
         {
-            if (jaggedArray[row][col] == "T")
-            {
-                return true;
-            }
-            return false;
+            return jaggedArray[row][col] == "T";
         }
 
         public static void Find(Entity challenger, string[][] jaggedArray, int row, int col)
