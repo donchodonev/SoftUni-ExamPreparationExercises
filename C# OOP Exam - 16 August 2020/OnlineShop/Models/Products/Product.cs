@@ -87,7 +87,7 @@
         }
         public override string ToString()
         {
-            return $"Overall Performance: {OverallPerformance:F2}. Price: {price} - {this.GetType().Name}: {Manufacturer} {Model} (Id: {Id})";
+            return $"Overall Performance: {OverallPerformance:F2}. Price: {Price:F2} - {this.GetType().Name}: {Manufacturer} {Model} (Id: {Id})";
         }
     }
 }

@@ -47,7 +47,7 @@ namespace OnlineShop.Models.Products.Computers
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine($"Overall Performance: {OverallPerformance:F2}. Price: {Price} - {this.GetType().Name}: {Manufacturer} {Model} (Id: {Id})");
+            sb.AppendLine($"Overall Performance: {OverallPerformance:F2}. Price: {Price:F2} - {this.GetType().Name}: {Manufacturer} {Model} (Id: {Id})");
 
             sb.AppendLine($" Components ({Components.Count}):");
 
@@ -62,7 +62,7 @@ namespace OnlineShop.Models.Products.Computers
             }
             else
             {
-                sb.AppendLine($" Peripherals ({Peripherals.Count}); Average Overall Performance ({Peripherals.Average(x => x.OverallPerformance)}):");
+                sb.AppendLine($" Peripherals ({Peripherals.Count}); Average Overall Performance ({Peripherals.Average(x => x.OverallPerformance):F2}):");
             }
 
             foreach (var peripheral in Peripherals)
@@ -111,7 +111,7 @@ namespace OnlineShop.Models.Products.Computers
         {
             var peripheral = Peripherals.FirstOrDefault(x => x.GetType().Name == peripheralType);
 
-            if (Components.Count == 0 || peripheral == null)
+            if (Peripherals.Count == 0 || peripheral == null)
             {
                 throw new ArgumentException($"Peripheral {peripheralType} does not exist in {this.GetType().Name} with Id {Id}.");
             }

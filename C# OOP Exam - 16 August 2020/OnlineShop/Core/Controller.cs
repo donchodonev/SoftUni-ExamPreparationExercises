@@ -12,19 +12,21 @@
     {
         private List<string> validComponentTypesNames;
         private List<string> validPeripheralTypesNames;
+        private List<string> validComputerTypesNames;
 
-        private List<Component> componentsRepo;
-        private List<Computer> computersRepo;
-        private List<Peripheral> peripheralsRepo;
+        private List<IComponent> componentsRepo;
+        private List<IComputer> computersRepo;
+        private List<IPeripheral> peripheralsRepo;
 
         public Controller()
         {
             validComponentTypesNames = GetValidEntityNamesOfType<Component>();
             validPeripheralTypesNames = GetValidEntityNamesOfType<Peripheral>();
+            validComputerTypesNames = GetValidEntityNamesOfType<Computer>();
 
-            componentsRepo = new List<Component>();
-            computersRepo = new List<Computer>();
-            peripheralsRepo = new List<Peripheral>();
+            componentsRepo = new List<IComponent>();
+            computersRepo = new List<IComputer>();
+            peripheralsRepo = new List<IPeripheral>();
         }
 
         public string AddComponent(int computerId, int id, string componentType, string manufacturer, string model, decimal price, double overallPerformance, int generation)
@@ -37,6 +39,11 @@
             if (ComponentExistsInRepo(id))
             {
                 throw new ArgumentException("Component with this id already exists.");
+            }
+
+            if (!ComputerExistsInRepo(computerId))
+            {
+                throw new ArgumentException("Computer with this id does not exist.");
             }
 
             var component = GenerateComponent(componentType, id, manufacturer, model, price, overallPerformance, generation);
@@ -52,7 +59,21 @@
 
         public string AddComputer(string computerType, int id, string manufacturer, string model, decimal price)
         {
-            throw new NotImplementedException();
+            if (ComputerExistsInRepo(id))
+            {
+                throw new ArgumentException("Computer with this id already exists.");
+            }
+
+            if (!IsComputerTypeValid(computerType))
+            {
+                throw new ArgumentException("Computer type is invalid.");
+            }
+
+            var computer = GenerateComputer(computerType, id, manufacturer, model, price);
+
+            computersRepo.Add(computer);
+
+            return $"Computer with id {id} added successfully.";
         }
 
         public string AddPeripheral(int computerId, int id, string peripheralType, string manufacturer, string model, decimal price, double overallPerformance, string connectionType)
@@ -67,6 +88,11 @@
                 throw new ArgumentException("Peripheral with this id already exists.");
             }
 
+            if (!ComputerExistsInRepo(id))
+            {
+                throw new ArgumentException("Computer with this id does not exist.");
+            }
+
             var peripheral = GeneratePeripheral(peripheralType, id, manufacturer, model, price, overallPerformance, connectionType);
 
             computersRepo
@@ -79,21 +105,53 @@
 
         public string BuyBest(decimal budget)
         {
-            throw new NotImplementedException();
+            var computers = computersRepo.Where(x => x.Price <= budget);
+
+            if (computers.ToList().Count == 0)
+            {
+                throw new ArgumentException($"Can't buy a computer with a budget of ${budget}.");
+            }
+
+            var bestComputerForTheMoney = computers
+                .OrderByDescending(x => x.OverallPerformance)
+                .First();
+
+            computersRepo.Remove(bestComputerForTheMoney);
+
+            return bestComputerForTheMoney.ToString();
         }
 
         public string BuyComputer(int id)
         {
-            throw new NotImplementedException();
+            if (!ComputerExistsInRepo(id))
+            {
+                throw new ArgumentException("Computer with this id does not exist.");
+            }
+
+            var computer = computersRepo.First(x => x.Id == id);
+
+            computersRepo.Remove(computer);
+
+            return computer.ToString();
         }
 
         public string GetComputerData(int id)
         {
-            throw new NotImplementedException();
+            if (!ComputerExistsInRepo(id))
+            {
+                throw new ArgumentException("Computer with this id does not exist.");
+            }
+
+            return computersRepo.FirstOrDefault(x => x.Id == id).ToString();
         }
 
         public string RemoveComponent(string componentType, int computerId)
         {
+            if (!ComputerExistsInRepo(computerId))
+            {
+                throw new ArgumentException("Computer with this id does not exist.");
+            }
+
             computersRepo
                 .FirstOrDefault(x => x.Id == computerId)
                 .RemoveComponent(componentType);
@@ -108,26 +166,28 @@
 
         public string RemovePeripheral(string peripheralType, int computerId)
         {
-            computersRepo
+            if (!ComputerExistsInRepo(computerId))
+            {
+                throw new ArgumentException("Computer with this id does not exist.");
+            }
+
+            var peripheralToRemove = computersRepo
                 .FirstOrDefault(x => x.Id == computerId)
                 .RemovePeripheral(peripheralType);
-
-            var peripheralToRemove = peripheralsRepo
-                .FirstOrDefault(x => x.GetType().Name == peripheralType);
 
             peripheralsRepo.Remove(peripheralToRemove);
 
             return $"Successfully removed {peripheralType} with id {peripheralToRemove.Id}.";
         }
 
-        private bool ComputerExistsInRepo(Computer computer)
-        {
-            return computersRepo.Any(x => x.Id == computer.Id);
-        }
-
         private bool ComponentExistsInRepo(int componentId)
         {
             return componentsRepo.Any(x => x.Id == componentId);
+        }
+
+        private bool ComputerExistsInRepo(int computerId)
+        {
+            return computersRepo.Any(x => x.Id == computerId);
         }
 
         private bool PeripheralExistsInRepo(int peripheralId)
@@ -143,6 +203,11 @@
         private bool IsPeripheralTypeValid(string peripheralType)
         {
             return validPeripheralTypesNames.Contains(peripheralType);
+        }
+
+        private bool IsComputerTypeValid(string computerType)
+        {
+            return validComputerTypesNames.Contains(computerType);
         }
 
         private Component GenerateComponent(string componentType,
@@ -203,6 +268,22 @@
             else
             {
                 return new Mouse(id, manufacturer, model, price, overallPerformance, connectionType);
+            }
+        }
+
+        private Computer GenerateComputer(string computerType,
+            int id,
+            string manufacturer,
+            string model,
+            decimal price)
+        {
+            if (computerType == "Laptop")
+            {
+                return new Laptop(id, manufacturer, model, price);
+            }
+            else
+            {
+                return new DesktopComputer(id, manufacturer, model, price);
             }
         }
 
