@@ -88,7 +88,7 @@
                 throw new ArgumentException("Peripheral with this id already exists.");
             }
 
-            if (!ComputerExistsInRepo(id))
+            if (!ComputerExistsInRepo(computerId))
             {
                 throw new ArgumentException("Computer with this id does not exist.");
             }
@@ -152,12 +152,9 @@
                 throw new ArgumentException("Computer with this id does not exist.");
             }
 
-            computersRepo
+            var componentToRemove = computersRepo
                 .FirstOrDefault(x => x.Id == computerId)
                 .RemoveComponent(componentType);
-
-            var componentToRemove = componentsRepo
-                .FirstOrDefault(x => x.GetType().Name == componentType);
 
             componentsRepo.Remove(componentToRemove);
 
