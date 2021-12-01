@@ -4,6 +4,8 @@
     using Easter.Models.Dyes.Contracts;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
 
     public abstract class Bunny : IBunny
     {
@@ -56,6 +58,19 @@
         public virtual void Work()
         {
             Energy -= 10;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            var unfinishedDyesCount = Dyes.Where(x => !x.IsFinished()).Count();
+
+            sb.AppendLine($"Name: {Name}");
+            sb.AppendLine($"Energy: {Energy}");
+            sb.AppendLine($"Dyes: {unfinishedDyesCount} not finished");
+
+            return sb.ToString().TrimEnd();
         }
     }
 }

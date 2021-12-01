@@ -20,6 +20,7 @@
                     egg.GetColored();
                     bunny.Work();
                     dye.Use();
+                    break;
                 }
             }
         }
