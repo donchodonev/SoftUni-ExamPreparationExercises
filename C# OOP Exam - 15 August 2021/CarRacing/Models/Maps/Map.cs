@@ -7,23 +7,25 @@
     {
         public string StartRace(IRacer racerOne, IRacer racerTwo)
         {
-            if (!AreBothPlayersAvailabe(racerOne, racerTwo))
+            if (AreBothPlayersAvailabe(racerOne, racerTwo))
             {
-                var possibleWinner = FindAutomaticWinner(racerOne, racerTwo);
+                return Race(racerOne, racerTwo);
+            }
+            else
+            {
+                var winner = FindAutomaticWinner(racerOne, racerTwo);
 
-                if (!possibleWinner.IsAvailable())
+                if (winner == null)
                 {
                     return "Race cannot be completed because both racers are not available!";
                 }
                 else
                 {
-                    var loser = possibleWinner == racerOne ? racerOne : racerTwo;
+                    var loser = winner.Username == racerOne.Username ? racerTwo : racerOne;
 
-                    return $"{possibleWinner.Username} wins the race! {loser.Username} was not available to race!";
+                    return $"{winner.Username} wins the race! {loser.Username} was not available to race!";
                 }
             }
-
-            return Race(racerOne, racerTwo);
         }
 
         private bool AreBothPlayersAvailabe(IRacer racerOne, IRacer racerTwo)
@@ -37,8 +39,12 @@
             {
                 return racerOne;
             }
+            else if (racerTwo.IsAvailable())
+            {
+                return racerTwo;
+            }
 
-            return racerTwo;
+            return null;
         }
 
         private double CalculateChanceOfWinning(IRacer racer)
@@ -61,7 +67,7 @@
                 return $"{racerOne.Username} has just raced against {racerTwo.Username}! {racerOne.Username} is the winner!";
             }
 
-            return $"{racerTwo.Username} has just raced against {racerOne.Username}! {racerTwo.Username} is the winner!";
+            return $"{racerOne.Username} has just raced against {racerTwo.Username}! {racerTwo.Username} is the winner!";
         }
     }
 }

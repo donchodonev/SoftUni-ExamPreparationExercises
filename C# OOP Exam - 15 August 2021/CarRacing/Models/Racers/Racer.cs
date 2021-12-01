@@ -3,6 +3,7 @@
     using CarRacing.Models.Cars.Contracts;
     using CarRacing.Models.Racers.Contracts;
     using System;
+    using System.Text;
     using static CarRacing.Utilities.Messages.ExceptionMessages;
 
     public abstract class Racer : IRacer
@@ -74,7 +75,6 @@
             }
         }
 
-
         public bool IsAvailable()
         {
             return Car.FuelAvailable >= Car.FuelConsumptionPerRace;
@@ -83,6 +83,18 @@
         public virtual void Race()
         {
             Car.Drive();
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine($"{this.GetType().Name}: {Username}");
+            sb.AppendLine($"--Driving behavior: {RacingBehavior}");
+            sb.AppendLine($"--Driving experience: {DrivingExperience}");
+            sb.AppendLine($"--Car: {Car.Make} {Car.Model} ({Car.VIN})");
+
+            return sb.ToString().TrimEnd();
         }
     }
 }
