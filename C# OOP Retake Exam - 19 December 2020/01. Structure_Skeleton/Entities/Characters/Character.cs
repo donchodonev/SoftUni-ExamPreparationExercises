@@ -119,7 +119,6 @@ namespace WarCroft.Entities.Characters.Contracts
         {
             if (IsAlive)
             {
-                Bag.GetItem(item.GetType().Name);
                 item.AffectCharacter(this);
             }
         }

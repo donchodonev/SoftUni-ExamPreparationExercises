@@ -11,12 +11,12 @@ namespace WarCroft.Core
     public class WarController
     {
         private List<Character> characterParty;
-        private Stack<Item> itemPool;
+        private List<Item> itemPool;
 
         public WarController()
         {
             characterParty = new List<Character>();
-            itemPool = new Stack<Item>();
+            itemPool = new List<Item>();
         }
 
         //string characterType, string name
@@ -66,7 +66,7 @@ namespace WarCroft.Core
                 throw new ArgumentException($"Invalid item \"{itemName}\"!");
             }
 
-            itemPool.Push(item);
+            itemPool.Add(item);
 
             return $"{itemName} added to pool.";
         }
@@ -86,10 +86,10 @@ namespace WarCroft.Core
 
             if (itemPool.Count == 0)
             {
-                throw new InvalidOperationException("No items left in pool!");
+                throw new ArgumentException("No items left in pool!");
             }
 
-            var lastItem = itemPool.Pop();
+            var lastItem = itemPool.Last();
 
             character.Bag.AddItem(lastItem);
 
@@ -102,7 +102,7 @@ namespace WarCroft.Core
             string characterName = args.First();
             string itemName = args.Last();
 
-            Character character = characterParty.FirstOrDefault(x => x.Name == characterName);
+            Character character = characterParty.FirstOrDefault();
 
             if (character == null)
             {
@@ -186,8 +186,8 @@ namespace WarCroft.Core
             string healerName = args.First();
             string receiverName = args.Last();
 
-            Priest healer = characterParty
-                .FirstOrDefault(x => x.Name == healerName) as Priest;
+            Character healer = characterParty
+                .FirstOrDefault(x => x.Name == healerName);
 
             if (healerName == null)
             {
@@ -207,7 +207,7 @@ namespace WarCroft.Core
                 throw new ArgumentException($"{healer.Name} cannot heal!");
             }
 
-            healer.Heal(receiver);
+            (healer as Priest).Heal(receiver);
 
             return $"{healerName} heals {receiverName} for {healer.AbilityPoints}! {receiverName} has {receiver.Health} health now!";
         }

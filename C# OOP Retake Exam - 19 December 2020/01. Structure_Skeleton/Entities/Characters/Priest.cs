@@ -8,9 +8,10 @@
         private const double DefaultBaseHealth = 50;
         private const double DefaultBaseArmor = 25;
         private const double DefaultAbilityPoints = 40;
+        private static Bag DefaultBagType = new Backpack();
 
         public Priest(string name)
-            : base(name, DefaultBaseHealth, DefaultBaseArmor, DefaultAbilityPoints, new Backpack())
+            : base(name, DefaultBaseHealth, DefaultBaseArmor, DefaultAbilityPoints, DefaultBagType)
         {
         }
 
