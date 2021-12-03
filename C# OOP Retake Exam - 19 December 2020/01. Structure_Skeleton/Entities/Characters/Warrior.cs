@@ -9,12 +9,10 @@
         private const double DefaultBaseHealth = 100;
         private const double DefaultBaseArmor = 50;
         private const double DefaultAbilityPoints = 40;
-        private static Bag DefaultBagType;
 
         public Warrior(string name)
-            : base(name, DefaultBaseHealth, DefaultBaseArmor, DefaultAbilityPoints, DefaultBagType)
+            : base(name, DefaultBaseHealth, DefaultBaseArmor, DefaultAbilityPoints, new Satchel())
         {
-            DefaultBagType = new Satchel();
         }
 
         public void Attack(Character character)

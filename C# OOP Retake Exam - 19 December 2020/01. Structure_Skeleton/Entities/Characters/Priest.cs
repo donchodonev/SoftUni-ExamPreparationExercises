@@ -1,6 +1,5 @@
 ﻿namespace WarCroft.Entities.Characters
 {
-    using System;
     using WarCroft.Entities.Characters.Contracts;
     using WarCroft.Entities.Inventory;
 
@@ -9,12 +8,10 @@
         private const double DefaultBaseHealth = 50;
         private const double DefaultBaseArmor = 25;
         private const double DefaultAbilityPoints = 40;
-        private static Bag DefaultBagType;
 
         public Priest(string name)
-            : base(name, DefaultBaseHealth, DefaultBaseArmor, DefaultAbilityPoints, DefaultBagType)
+            : base(name, DefaultBaseHealth, DefaultBaseArmor, DefaultAbilityPoints, new Backpack())
         {
-            DefaultBagType = new Backpack();
         }
 
         public void Heal(Character character)

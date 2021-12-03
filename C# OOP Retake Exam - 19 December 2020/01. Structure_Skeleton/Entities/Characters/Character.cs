@@ -17,7 +17,7 @@ namespace WarCroft.Entities.Characters.Contracts
             Name = name;
             BaseHealth = health;
             Health = health;
-            BaseArmor = Armor;
+            BaseArmor = armor;
             Armor = armor;
             AbilityPoints = abilityPoints;
             Bag = bag;
@@ -45,7 +45,7 @@ namespace WarCroft.Entities.Characters.Contracts
             get { return health; }
             set
             {
-                if (value < 0)
+                if (value <= 0)
                 {
                     health = 0;
                 }
@@ -53,8 +53,10 @@ namespace WarCroft.Entities.Characters.Contracts
                 {
                     health = BaseHealth;
                 }
-
-                health = value;
+                else
+                {
+                    health = value;
+                }
 
                 if (Health == 0)
                 {
@@ -96,9 +98,9 @@ namespace WarCroft.Entities.Characters.Contracts
 
             if (Armor < hitPoints)
             {
-                Armor = 0;
-
                 hitPoints -= Armor;
+
+                Armor = 0;
 
                 Health -= hitPoints;
 
@@ -117,8 +119,16 @@ namespace WarCroft.Entities.Characters.Contracts
         {
             if (IsAlive)
             {
+                Bag.GetItem(item.GetType().Name);
                 item.AffectCharacter(this);
             }
+        }
+
+        public override string ToString()
+        {
+            string lifeStatus = IsAlive ? "Alive" : "Dead";
+
+            return $"{Name} - HP: {Health}/{BaseHealth}, AP: {Armor}/{BaseArmor}, Status: {lifeStatus}";
         }
     }
 }
