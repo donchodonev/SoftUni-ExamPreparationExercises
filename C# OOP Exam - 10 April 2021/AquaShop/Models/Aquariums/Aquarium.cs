@@ -62,7 +62,10 @@
 
         public void Feed()
         {
-            fish.ForEach(x => x.Eat());
+            foreach (var fish in Fish)
+            {
+                fish.Eat();
+            }
         }
 
         public string GetInfo()
@@ -70,8 +73,10 @@
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine($"{Name} ({this.GetType().Name}):");
-            sb.AppendLine($"Fish: " + (Fish.Count == 0 ? "none" : string.Join(", ", Fish.ToString())));
-            sb.AppendLine($"Decorations: { Decorations.Count}");
+
+            sb.AppendLine(Fish.Count == 0 ? "Fish: none" : $"Fish: {string.Join(", ", Fish)}");
+
+            sb.AppendLine($"Decorations: {Decorations.Count}");
             sb.AppendLine($"Comfort: {Comfort}");
 
             return sb.ToString().TrimEnd();
